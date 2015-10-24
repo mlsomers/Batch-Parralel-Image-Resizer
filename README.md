@@ -10,3 +10,7 @@ This initial alpha version of the app is working on my machine, has only partial
 I am playing with the idea to use the app as a basis for uploading images to a Synology Diskstation. The requirements will change in that case, multiple thumbnail sizes will need to be generated, and will need to be uploaded using the undocumented PHP API instead of simply stored to disk.
 
 Disclaimer for potential future employers: When I write code in my scarce free time I tend to cut corners and don't pay too much attention to coding standards. This is not SOLID, nither is it "clean". Please don't judge my ability to write code on this project. Thanks.
+
+The icons used in this application are from FamFamFam (http://www.famfamfam.com/lab/icons/silk/).
+
+This software is based in part on the work of the Independent JPEG Group.
