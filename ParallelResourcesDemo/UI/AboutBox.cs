@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -9,12 +6,16 @@ namespace BatchImageResampler {
   partial class AboutBox : Form {
     public AboutBox() {
       InitializeComponent();
-      this.Text = String.Format("About {0}", AssemblyTitle);
-      this.labelProductName.Text = AssemblyProduct;
-      this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
-      this.labelCopyright.Text = AssemblyCopyright;
-      this.labelCompanyName.Text = AssemblyCompany;
-      this.textBoxDescription.Text = AssemblyDescription;
+    }
+
+    protected override void OnLoad(EventArgs e){
+      base.OnLoad(e);
+      Text = String.Format("About {0}", AssemblyTitle);
+      labelProductName.Text = AssemblyProduct;
+      labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
+      labelCopyright.Text = AssemblyCopyright;
+      labelCompanyName.Text = AssemblyCompany;
+      textBoxDescription.Text = AssemblyDescription;
     }
 
     #region Assembly Attribute Accessors

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using QueueWorkers;
 using System.Drawing;
 
@@ -77,17 +74,25 @@ namespace ImageResizingLogic {
 
     public bool IsFinished {
       get {
-        return (_LoadImageWorker.Queue.Count == 0 && _ProcessImageWorker.Queue.Count == 0 && _SaveImageWorker.Queue.Count == 0);
+        if(_Settings.CombineIoThreads) {
+          return (_ProcessImageWorker.Queue.Count == 0 && _ProcessImageWorker.Queue.IdleThreads == _ProcessImageWorker.ThreadCount
+            && _LoadImageWorker.Queue.Count == 0 && _SaveImageWorker.Queue.Count == 0 && CombinedIoWorker.Idle);
+        } else {
+          return (_LoadImageWorker.Queue.Count == 0 && _LoadImageWorker.Queue.IdleThreads == _LoadImageWorker.ThreadCount
+            && _ProcessImageWorker.Queue.Count == 0 && _ProcessImageWorker.Queue.IdleThreads == _ProcessImageWorker.ThreadCount
+            && _SaveImageWorker.Queue.Count == 0 && _SaveImageWorker.Queue.IdleThreads == _SaveImageWorker.ThreadCount);
+        }
       }
     }
 
     private void LoadImage(ConversionJob job) {
-      job.ImageBitmap = (Bitmap)Bitmap.FromFile(job.FileName, job.Settings.useEmbeddedColorManagement);
+      job.ImageBitmap = (Bitmap)Image.FromFile(job.FileName, job.Settings.useEmbeddedColorManagement);
     }
 
     private void SaveImage(ConversionJob job) {
       if(ReferenceEquals(job.ImageBitmap, null)) {
         job.Log.Add(string.Concat("Unable to save empty image: ", job.FileName));
+        return;
       }
       string ext = "." + job.Settings.ImageFormat.ToString();
       string filename = job.Settings.DestName.Replace("*", System.IO.Path.GetFileNameWithoutExtension(job.FileName));

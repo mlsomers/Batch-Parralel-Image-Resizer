@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace QueueWorkers {
   public class QueueJob<T> {
@@ -23,19 +21,19 @@ namespace QueueWorkers {
 
     public readonly WorkItemQueue<T> Queue;
 
-    private WorkItemQueue<T> _DestinationQueue;
+    private WorkItemQueue<T> _destinationQueue;
     /// <summary>
     /// The queue in wich to place processed WorkItems
     /// </summary>
     public WorkItemQueue<T> DestinationQueue {
-      get { return _DestinationQueue; }
-      set { _DestinationQueue = value; }
+      get { return _destinationQueue; }
+      set { _destinationQueue = value; }
     }
 
     public event WorkItemDelegate<T> WorkDone;
     internal protected virtual void OnWorkDone(T workItem) {
       if(!ReferenceEquals(WorkDone, null)) WorkDone(workItem);
-      if(!ReferenceEquals(_DestinationQueue, null)) _DestinationQueue.EnqueueWorkItem(workItem);
+      if(!ReferenceEquals(_destinationQueue, null)) _destinationQueue.EnqueueWorkItem(workItem);
     }
 
     public event WorkItemDelegate<T> DoWork;

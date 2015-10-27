@@ -43,11 +43,11 @@ namespace ImageResizingLogic {
     }
 
     public static Bitmap Resize(Bitmap source, int newWidth, int newHeight, InterpolationMode mode = InterpolationMode.HighQualityBicubic) {
-      Bitmap result = new Bitmap(newWidth, newHeight, source.PixelFormat);
+      Bitmap result = new Bitmap(newWidth, newHeight);
       int start = mode.ToString().ToLowerInvariant().Contains("high") ? 1 : 0;
-      using(Graphics g = Graphics.FromImage((Image)result)) {
-        g.InterpolationMode = mode;
-        g.DrawImage(source, -start, -start, newWidth + start, newHeight + start);
+      using (Graphics g = Graphics.FromImage((Image)result)){
+          g.InterpolationMode = mode;
+          g.DrawImage(source, -start, -start, newWidth + start, newHeight + start);
       }
       return result;
     }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using QueueWorkers;
@@ -15,17 +13,17 @@ namespace BatchImageResampler.UI {
     /// </summary>
     private Orientation Orientation { get; set; }
 
-    private int ItemPadding = 3; // 3 pixels between each rectangle
+    private const int ItemPadding = 3; // 3 pixels between each rectangle
 
-    Brush emptyBrush=new SolidBrush(Color.FromKnownColor(KnownColor.Black));
-    Brush filledBrush=new SolidBrush(Color.FromKnownColor(KnownColor.Red));
-    Brush usedBrush =new SolidBrush(Color.FromKnownColor(KnownColor.Yellow));
+    readonly Brush _emptyBrush = new SolidBrush(Color.FromKnownColor(KnownColor.Black));
+    readonly Brush _filledBrush = new SolidBrush(Color.FromKnownColor(KnownColor.Red));
+    readonly Brush _usedBrush = new SolidBrush(Color.FromKnownColor(KnownColor.Yellow));
 
-    Pen borderPen = new Pen(new SolidBrush(Color.FromKnownColor(KnownColor.DarkGray)));
+    Pen _borderPen = new Pen(new SolidBrush(Color.FromKnownColor(KnownColor.DarkGray)));
 
     protected override void OnForeColorChanged(EventArgs e) {
       base.OnForeColorChanged(e);
-      borderPen = new Pen(new SolidBrush(ForeColor));
+      _borderPen = new Pen(new SolidBrush(ForeColor));
     }
 
     protected override void OnSizeChanged(EventArgs e) {
@@ -43,8 +41,9 @@ namespace BatchImageResampler.UI {
 
       if(ReferenceEquals(WorkQueue, null)) {
         // create a dummy placeholder
-        WorkQueue = new WorkItemQueue<object>(new object[] { new object(), new object(), new object(), new object() });
-        WorkQueue.MaxItems = 7;
+        WorkQueue = new WorkItemQueue<object>(new object[] { new object(), new object(), new object(), new object() }){
+            MaxItems = 7
+        };
       }
 
       int max = Max(WorkQueue.MaxItems, WorkQueue.Count, WorkQueue.PerfStatsMaxQueueLength);
@@ -70,18 +69,18 @@ namespace BatchImageResampler.UI {
 
       int pos = (Orientation == Orientation.Horizontal) ? Padding.Left : Padding.Right;
 
-      Brush rectPen = emptyBrush;
       if(Orientation == Orientation.Horizontal) {
+        Brush rectPen;
         for(int t = 0; t < max; t++) {
-          if(t < WorkQueue.Count) rectPen = filledBrush;
-          else if(t < WorkQueue.PerfStatsMaxQueueLength) rectPen = usedBrush;
-          else rectPen = emptyBrush;
-          if(len > 3) e.Graphics.DrawRectangle(borderPen, pos, Padding.Top, len, hy);
+          if(t < WorkQueue.Count) rectPen = _filledBrush;
+          else if(t < WorkQueue.PerfStatsMaxQueueLength) rectPen = _usedBrush;
+          else rectPen = _emptyBrush;
+          if(len > 3) e.Graphics.DrawRectangle(_borderPen, pos, Padding.Top, len, hy);
           e.Graphics.FillRectangle(rectPen, pos+1, Padding.Top+1, len-1, hy-1);
           pos = pos + len + padding;
         }
         if(len <= 3) {
-          e.Graphics.DrawRectangle(borderPen, Padding.Left, Padding.Top, (pos - padding) - Padding.Left, hy);
+          e.Graphics.DrawRectangle(_borderPen, Padding.Left, Padding.Top, (pos - padding) - Padding.Left, hy);
         }
       } else {
         // ToDo: add Vertical support
@@ -112,10 +111,10 @@ namespace BatchImageResampler.UI {
       int y = hy - 1;
 
       if(Orientation == Orientation.Horizontal) {
-        e.Graphics.DrawRectangle(borderPen, Padding.Left, Padding.Top, hx + 1, hy);
-        e.Graphics.FillRectangle(filledBrush, l, t, wFilled, y);
-        if(wUsed>0) e.Graphics.FillRectangle(usedBrush, l + wFilled, t, wUsed, y);
-        if(wmax>0) e.Graphics.FillRectangle(emptyBrush, l + wFilled + wUsed, t, wmax, y);
+        e.Graphics.DrawRectangle(_borderPen, Padding.Left, Padding.Top, hx + 1, hy);
+        e.Graphics.FillRectangle(_filledBrush, l, t, wFilled, y);
+        if(wUsed>0) e.Graphics.FillRectangle(_usedBrush, l + wFilled, t, wUsed, y);
+        if(wmax>0) e.Graphics.FillRectangle(_emptyBrush, l + wFilled + wUsed, t, wmax, y);
       } else {
         // ToDo: add vertical support
       }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace QueueWorkers {
@@ -13,42 +12,47 @@ namespace QueueWorkers {
     public MultiQueueWorker(int capacity) : base(capacity) { }
     public MultiQueueWorker(IEnumerable<QueueJob<T>> collection) : base(collection) { }
 
-    private List<QueueJob<T>> _FinishedWorkItemQueues = new List<QueueJob<T>>();
+    private readonly List<QueueJob<T>> _finishedWorkItemQueues = new List<QueueJob<T>>();
     /// <summary>
     /// List of WorkItem Queues that are finished processing
     /// </summary>
     public List<QueueJob<T>> FinishedWorkItemQueues {
-      get { return _FinishedWorkItemQueues; }
+      get { return _finishedWorkItemQueues; }
     }
 
-    private bool _Prioritize;
+    private bool _prioritize;
     /// <summary>
     /// If true, the last queue will have the highest priority, then the one before etc.. If false, all queues will get equal turns to run
     /// </summary>
     public bool Prioritize {
-      get { return _Prioritize; }
-      set { _Prioritize = value; }
+      get { return _prioritize; }
+      set { _prioritize = value; }
     }
 
-    private Thread workerThread;
-    private bool shouldStop;
-    private static readonly T stopObject = default(T);
+    private Thread _workerThread;
+    private bool _shouldStop;
+    private static readonly T StopObject = default(T);
+    private bool idle = true;
+
+    public bool Idle {
+      get { return idle; }
+    }
 
     protected void WorkerLoop() {
-      while(!shouldStop) {
-        bool idle = true;
+      while(!_shouldStop) {
+        idle = this[this.Count - 1].Queue.Count <= 0; // works for the last
         for(int t = Count - 1; t >= 0; t--) {
           WorkItemQueue<T> queue = this[t].Queue;
           if(queue.Count > 0) {
             idle = false;
             T workItem = queue.DequeueWorkItem();
-            if(workItem.Equals(stopObject)) {
-              _FinishedWorkItemQueues.Add(this[t]);
+            if(workItem.Equals(StopObject)) {
+              _finishedWorkItemQueues.Add(this[t]);
               RemoveAt(t);
             } else {
               this[t].OnDoWork(workItem);
               this[t].OnWorkDone(workItem);
-              if(_Prioritize) break;
+              if(_prioritize) break;
             }
           }
         }
@@ -62,26 +66,26 @@ namespace QueueWorkers {
     /// Start working using a single thread
     /// </summary>
     public void Start() {
-      if(!ReferenceEquals(workerThread, null)) throw new InvalidOperationException("The MultiQueueWorker is already running");
-      workerThread = new Thread(WorkerLoop);
-      shouldStop = false;
-      workerThread.Start();
+      if(!ReferenceEquals(_workerThread, null)) throw new InvalidOperationException("The MultiQueueWorker is already running");
+      _workerThread = new Thread(WorkerLoop);
+      _shouldStop = false;
+      _workerThread.Start();
     }
 
     /// <summary>
     /// Gracefully stop in a resumable manner (stopping the thread after finishing a task)
     /// </summary>
     public void Stop() {
-      if(ReferenceEquals(workerThread, null)) return;
-      shouldStop = true;
+      if(ReferenceEquals(_workerThread, null)) return;
+      _shouldStop = true;
       for(int t = Count - 1; t >= 0; t--) {
         this[t].Queue.Stop = true;
-      };
-      workerThread.Join();
-      workerThread = null;
+      }
+      _workerThread.Join();
+      _workerThread = null;
       for(int t = Count - 1; t >= 0; t--) {
         this[t].Queue.Stop = false;
-      };
+      }
     }
 
     /// <summary>
@@ -95,7 +99,7 @@ namespace QueueWorkers {
       set {
         for(int t = Count - 1; t >= 0; t--) {
           this[t].Queue.PauseQueue = value;
-        };
+        }
       }
     }
 

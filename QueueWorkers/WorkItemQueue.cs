@@ -87,12 +87,21 @@ namespace QueueWorkers {
 
     private int maxQueueLength;
     private int dequeuedItems;
+    private int idleThreads;
 
     /// <summary>
     /// Returns the maximum number of workitems in the queue reached during its lifespan
     /// </summary>
     public int PerfStatsMaxQueueLength {
       get { return maxQueueLength; }
+    }
+
+    public int PerfStatsProcessedItems {
+        get { return dequeuedItems; }
+    }
+
+    public int IdleThreads {
+      get { return idleThreads; }
     }
 
     // ****  Methods  ****
@@ -126,8 +135,10 @@ namespace QueueWorkers {
     /// <remarks>Unfortunately the Dequeue method is not virtual, I personally rather add a new method than using the tricky "new" keyword.</remarks>
     public T DequeueWorkItem() {
       while(!abort && !stop) {
+        idleThreads++;
         while((!abort && !stop) && (pause || pauseQueue || Count <= 0)) Thread.Sleep(sleepSpan);
         lock(SyncRoot) {
+          idleThreads--;
           if(abort || stop) return default(T);
           if(Count <= 0) continue; // race condition
           dequeuedItems++;

@@ -26,7 +26,10 @@
       this.components = new System.ComponentModel.Container();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
       this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-      this.panel1 = new System.Windows.Forms.Panel();
+      this.panelQueues = new System.Windows.Forms.Panel();
+      this.threadStats3 = new BatchImageResampler.UI.ThreadStats();
+      this.threadStats2 = new BatchImageResampler.UI.ThreadStats();
+      this.threadStats1 = new BatchImageResampler.UI.ThreadStats();
       this.panel3 = new System.Windows.Forms.Panel();
       this.cbCombineIoThreads = new System.Windows.Forms.CheckBox();
       this.label5 = new System.Windows.Forms.Label();
@@ -34,7 +37,7 @@
       this.label3 = new System.Windows.Forms.Label();
       this.label2 = new System.Windows.Forms.Label();
       this.splitter1 = new System.Windows.Forms.Splitter();
-      this.panel2 = new System.Windows.Forms.Panel();
+      this.panelResizeSettings = new System.Windows.Forms.Panel();
       this.panel5 = new System.Windows.Forms.Panel();
       this.cbUseColorManagement = new System.Windows.Forms.CheckBox();
       this.label11 = new System.Windows.Forms.Label();
@@ -68,7 +71,14 @@
       this.cbSPortrait = new System.Windows.Forms.CheckBox();
       this.cbSLandscape = new System.Windows.Forms.CheckBox();
       this.label1 = new System.Windows.Forms.Label();
+      this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+      this.btnLoadSettings = new System.Windows.Forms.ToolStripButton();
+      this.btnSaveSettings = new System.Windows.Forms.ToolStripButton();
+      this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+      this.btnAbout = new System.Windows.Forms.ToolStripButton();
       this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+      this.btnOpenFiles = new System.Windows.Forms.ToolStripButton();
+      this.btnRun = new System.Windows.Forms.ToolStripButton();
       this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
       this.destFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
       this.addFilesDialog = new System.Windows.Forms.OpenFileDialog();
@@ -76,24 +86,14 @@
       this.statusStrip1 = new System.Windows.Forms.StatusStrip();
       this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
       this.lableRunningTime = new System.Windows.Forms.ToolStripStatusLabel();
-      this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-      this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
       this.openSettingsDialog = new System.Windows.Forms.OpenFileDialog();
       this.saveSettingsDialog = new System.Windows.Forms.SaveFileDialog();
-      this.btnOpenFiles = new System.Windows.Forms.ToolStripButton();
-      this.btnRun = new System.Windows.Forms.ToolStripButton();
-      this.btnLoadSettings = new System.Windows.Forms.ToolStripButton();
-      this.btnSaveSettings = new System.Windows.Forms.ToolStripButton();
-      this.btnAbout = new System.Windows.Forms.ToolStripButton();
-      this.threadStats3 = new BatchImageResampler.UI.ThreadStats();
-      this.threadStats2 = new BatchImageResampler.UI.ThreadStats();
-      this.threadStats1 = new BatchImageResampler.UI.ThreadStats();
       this.toolStripContainer1.ContentPanel.SuspendLayout();
       this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
       this.toolStripContainer1.SuspendLayout();
-      this.panel1.SuspendLayout();
+      this.panelQueues.SuspendLayout();
       this.panel3.SuspendLayout();
-      this.panel2.SuspendLayout();
+      this.panelResizeSettings.SuspendLayout();
       this.panel5.SuspendLayout();
       this.panel4.SuspendLayout();
       this.panel11.SuspendLayout();
@@ -103,9 +103,9 @@
       this.panel10.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.maxHeight)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.maxWidth)).BeginInit();
+      this.toolStrip2.SuspendLayout();
       this.toolStrip1.SuspendLayout();
       this.statusStrip1.SuspendLayout();
-      this.toolStrip2.SuspendLayout();
       this.SuspendLayout();
       // 
       // toolStripContainer1
@@ -113,9 +113,9 @@
       // 
       // toolStripContainer1.ContentPanel
       // 
-      this.toolStripContainer1.ContentPanel.Controls.Add(this.panel1);
+      this.toolStripContainer1.ContentPanel.Controls.Add(this.panelQueues);
       this.toolStripContainer1.ContentPanel.Controls.Add(this.splitter1);
-      this.toolStripContainer1.ContentPanel.Controls.Add(this.panel2);
+      this.toolStripContainer1.ContentPanel.Controls.Add(this.panelResizeSettings);
       this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(865, 500);
       this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
@@ -129,17 +129,59 @@
       this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
       this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip2);
       // 
-      // panel1
+      // panelQueues
       // 
-      this.panel1.Controls.Add(this.threadStats3);
-      this.panel1.Controls.Add(this.threadStats2);
-      this.panel1.Controls.Add(this.threadStats1);
-      this.panel1.Controls.Add(this.panel3);
-      this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.panel1.Location = new System.Drawing.Point(0, 388);
-      this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(571, 112);
-      this.panel1.TabIndex = 1;
+      this.panelQueues.Controls.Add(this.threadStats3);
+      this.panelQueues.Controls.Add(this.threadStats2);
+      this.panelQueues.Controls.Add(this.threadStats1);
+      this.panelQueues.Controls.Add(this.panel3);
+      this.panelQueues.Dock = System.Windows.Forms.DockStyle.Bottom;
+      this.panelQueues.Location = new System.Drawing.Point(0, 388);
+      this.panelQueues.Name = "panelQueues";
+      this.panelQueues.Size = new System.Drawing.Size(571, 112);
+      this.panelQueues.TabIndex = 1;
+      // 
+      // threadStats3
+      // 
+      this.threadStats3.Caption = "To be saved";
+      this.threadStats3.Dock = System.Windows.Forms.DockStyle.Top;
+      this.threadStats3.Location = new System.Drawing.Point(0, 78);
+      this.threadStats3.MaxQueueLengthReadOnly = false;
+      this.threadStats3.Name = "threadStats3";
+      this.threadStats3.Queue = null;
+      this.threadStats3.Size = new System.Drawing.Size(571, 29);
+      this.threadStats3.TabIndex = 2;
+      this.threadStats3.ThreadsAssigned = 1;
+      this.threadStats3.ThreadsReadOnly = true;
+      this.threadStats3.ThreadsAssignedChanged += new BatchImageResampler.UI.ThreadStats.ThreadsAssignedDelegate(this.threadStats3_ThreadsAssignedChanged);
+      // 
+      // threadStats2
+      // 
+      this.threadStats2.Caption = "To be processed";
+      this.threadStats2.Dock = System.Windows.Forms.DockStyle.Top;
+      this.threadStats2.Location = new System.Drawing.Point(0, 49);
+      this.threadStats2.MaxQueueLengthReadOnly = false;
+      this.threadStats2.Name = "threadStats2";
+      this.threadStats2.Queue = null;
+      this.threadStats2.Size = new System.Drawing.Size(571, 29);
+      this.threadStats2.TabIndex = 1;
+      this.threadStats2.ThreadsAssigned = 1;
+      this.threadStats2.ThreadsReadOnly = false;
+      this.threadStats2.ThreadsAssignedChanged += new BatchImageResampler.UI.ThreadStats.ThreadsAssignedDelegate(this.threadStats2_ThreadsAssignedChanged);
+      // 
+      // threadStats1
+      // 
+      this.threadStats1.Caption = "Images to be loaded";
+      this.threadStats1.Dock = System.Windows.Forms.DockStyle.Top;
+      this.threadStats1.Location = new System.Drawing.Point(0, 20);
+      this.threadStats1.MaxQueueLengthReadOnly = true;
+      this.threadStats1.Name = "threadStats1";
+      this.threadStats1.Queue = null;
+      this.threadStats1.Size = new System.Drawing.Size(571, 29);
+      this.threadStats1.TabIndex = 0;
+      this.threadStats1.ThreadsAssigned = 1;
+      this.threadStats1.ThreadsReadOnly = true;
+      this.threadStats1.ThreadsAssignedChanged += new BatchImageResampler.UI.ThreadStats.ThreadsAssignedDelegate(this.threadStats1_ThreadsAssignedChanged);
       // 
       // panel3
       // 
@@ -221,23 +263,23 @@
       this.splitter1.TabIndex = 3;
       this.splitter1.TabStop = false;
       // 
-      // panel2
+      // panelResizeSettings
       // 
-      this.panel2.Controls.Add(this.panel5);
-      this.panel2.Controls.Add(this.panel4);
-      this.panel2.Controls.Add(this.panel11);
-      this.panel2.Controls.Add(this.panelResize);
-      this.panel2.Controls.Add(this.panel10);
-      this.panel2.Controls.Add(this.resizeCb);
-      this.panel2.Controls.Add(this.cbRotate);
-      this.panel2.Controls.Add(this.cbSPortrait);
-      this.panel2.Controls.Add(this.cbSLandscape);
-      this.panel2.Controls.Add(this.label1);
-      this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-      this.panel2.Location = new System.Drawing.Point(578, 0);
-      this.panel2.Name = "panel2";
-      this.panel2.Size = new System.Drawing.Size(287, 500);
-      this.panel2.TabIndex = 2;
+      this.panelResizeSettings.Controls.Add(this.panel5);
+      this.panelResizeSettings.Controls.Add(this.panel4);
+      this.panelResizeSettings.Controls.Add(this.panel11);
+      this.panelResizeSettings.Controls.Add(this.panelResize);
+      this.panelResizeSettings.Controls.Add(this.panel10);
+      this.panelResizeSettings.Controls.Add(this.resizeCb);
+      this.panelResizeSettings.Controls.Add(this.cbRotate);
+      this.panelResizeSettings.Controls.Add(this.cbSPortrait);
+      this.panelResizeSettings.Controls.Add(this.cbSLandscape);
+      this.panelResizeSettings.Controls.Add(this.label1);
+      this.panelResizeSettings.Dock = System.Windows.Forms.DockStyle.Right;
+      this.panelResizeSettings.Location = new System.Drawing.Point(578, 0);
+      this.panelResizeSettings.Name = "panelResizeSettings";
+      this.panelResizeSettings.Size = new System.Drawing.Size(287, 500);
+      this.panelResizeSettings.TabIndex = 2;
       // 
       // panel5
       // 
@@ -654,16 +696,85 @@
       this.label1.TabIndex = 29;
       this.label1.Text = "Processing Options";
       // 
+      // toolStrip2
+      // 
+      this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
+      this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnLoadSettings,
+            this.btnSaveSettings,
+            this.toolStripSeparator1,
+            this.btnAbout});
+      this.toolStrip2.Location = new System.Drawing.Point(744, 0);
+      this.toolStrip2.Name = "toolStrip2";
+      this.toolStrip2.Size = new System.Drawing.Size(87, 25);
+      this.toolStrip2.TabIndex = 1;
+      // 
+      // btnLoadSettings
+      // 
+      this.btnLoadSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.btnLoadSettings.Image = global::BatchImageResampler.Properties.Resources.folder_wrench;
+      this.btnLoadSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.btnLoadSettings.Name = "btnLoadSettings";
+      this.btnLoadSettings.Size = new System.Drawing.Size(23, 22);
+      this.btnLoadSettings.Text = "Load settings";
+      this.btnLoadSettings.Click += new System.EventHandler(this.btnLoadSettings_Click);
+      // 
+      // btnSaveSettings
+      // 
+      this.btnSaveSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.btnSaveSettings.Image = global::BatchImageResampler.Properties.Resources.disk;
+      this.btnSaveSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.btnSaveSettings.Name = "btnSaveSettings";
+      this.btnSaveSettings.Size = new System.Drawing.Size(23, 22);
+      this.btnSaveSettings.Text = "Save settings";
+      this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
+      // 
+      // toolStripSeparator1
+      // 
+      this.toolStripSeparator1.Name = "toolStripSeparator1";
+      this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+      // 
+      // btnAbout
+      // 
+      this.btnAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.btnAbout.Image = global::BatchImageResampler.Properties.Resources.information;
+      this.btnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.btnAbout.Name = "btnAbout";
+      this.btnAbout.Size = new System.Drawing.Size(23, 22);
+      this.btnAbout.Text = "About Batch Image Resizer";
+      this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
+      // 
       // toolStrip1
       // 
       this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
       this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnOpenFiles,
             this.btnRun});
-      this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+      this.toolStrip1.Location = new System.Drawing.Point(8, 0);
       this.toolStrip1.Name = "toolStrip1";
       this.toolStrip1.Size = new System.Drawing.Size(58, 25);
       this.toolStrip1.TabIndex = 0;
+      // 
+      // btnOpenFiles
+      // 
+      this.btnOpenFiles.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.btnOpenFiles.Image = global::BatchImageResampler.Properties.Resources.folder_image;
+      this.btnOpenFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.btnOpenFiles.Name = "btnOpenFiles";
+      this.btnOpenFiles.Size = new System.Drawing.Size(23, 22);
+      this.btnOpenFiles.Text = "Add input files";
+      this.btnOpenFiles.Click += new System.EventHandler(this.btnOpenFiles_Click);
+      // 
+      // btnRun
+      // 
+      this.btnRun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.btnRun.Image = global::BatchImageResampler.Properties.Resources.control_play_blue;
+      this.btnRun.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.btnRun.Name = "btnRun";
+      this.btnRun.Size = new System.Drawing.Size(23, 22);
+      this.btnRun.Text = "Run";
+      this.btnRun.ToolTipText = "Run batch";
+      this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
       // 
       // destFolderDialog
       // 
@@ -708,24 +819,6 @@
       this.lableRunningTime.Text = "0";
       this.lableRunningTime.ToolTipText = "Not verry accurate in this implementation.";
       // 
-      // toolStrip2
-      // 
-      this.toolStrip2.Dock = System.Windows.Forms.DockStyle.None;
-      this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnLoadSettings,
-            this.btnSaveSettings,
-            this.toolStripSeparator1,
-            this.btnAbout});
-      this.toolStrip2.Location = new System.Drawing.Point(747, 0);
-      this.toolStrip2.Name = "toolStrip2";
-      this.toolStrip2.Size = new System.Drawing.Size(118, 25);
-      this.toolStrip2.TabIndex = 1;
-      // 
-      // toolStripSeparator1
-      // 
-      this.toolStripSeparator1.Name = "toolStripSeparator1";
-      this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-      // 
       // openSettingsDialog
       // 
       this.openSettingsDialog.Filter = "Batch Image Resizer settings file (*.bir)|*.bir|All files (*.*)|*.*";
@@ -735,96 +828,6 @@
       // 
       this.saveSettingsDialog.Filter = "Batch Image Resizer settings file (*.bir)|*.bir|All files (*.*)|*.*";
       this.saveSettingsDialog.Title = "Save image resizing presets";
-      // 
-      // btnOpenFiles
-      // 
-      this.btnOpenFiles.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.btnOpenFiles.Image = global::BatchImageResampler.Properties.Resources.folder_image;
-      this.btnOpenFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.btnOpenFiles.Name = "btnOpenFiles";
-      this.btnOpenFiles.Size = new System.Drawing.Size(23, 22);
-      this.btnOpenFiles.Text = "Add input files";
-      this.btnOpenFiles.Click += new System.EventHandler(this.btnOpenFiles_Click);
-      // 
-      // btnRun
-      // 
-      this.btnRun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.btnRun.Image = global::BatchImageResampler.Properties.Resources.control_play_blue;
-      this.btnRun.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.btnRun.Name = "btnRun";
-      this.btnRun.Size = new System.Drawing.Size(23, 22);
-      this.btnRun.Text = "Run";
-      this.btnRun.ToolTipText = "Run batch";
-      this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
-      // 
-      // btnLoadSettings
-      // 
-      this.btnLoadSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.btnLoadSettings.Image = global::BatchImageResampler.Properties.Resources.folder_wrench;
-      this.btnLoadSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.btnLoadSettings.Name = "btnLoadSettings";
-      this.btnLoadSettings.Size = new System.Drawing.Size(23, 22);
-      this.btnLoadSettings.Text = "Load settings";
-      this.btnLoadSettings.Click += new System.EventHandler(this.btnLoadSettings_Click);
-      // 
-      // btnSaveSettings
-      // 
-      this.btnSaveSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.btnSaveSettings.Image = global::BatchImageResampler.Properties.Resources.disk;
-      this.btnSaveSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.btnSaveSettings.Name = "btnSaveSettings";
-      this.btnSaveSettings.Size = new System.Drawing.Size(23, 22);
-      this.btnSaveSettings.Text = "Save settings";
-      this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
-      // 
-      // btnAbout
-      // 
-      this.btnAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.btnAbout.Image = global::BatchImageResampler.Properties.Resources.information;
-      this.btnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.btnAbout.Name = "btnAbout";
-      this.btnAbout.Size = new System.Drawing.Size(23, 22);
-      this.btnAbout.Text = "About Batch Image Resizer";
-      this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
-      // 
-      // threadStats3
-      // 
-      this.threadStats3.Caption = "To be saved";
-      this.threadStats3.Dock = System.Windows.Forms.DockStyle.Top;
-      this.threadStats3.Location = new System.Drawing.Point(0, 78);
-      this.threadStats3.MaxQueueLengthReadOnly = false;
-      this.threadStats3.Name = "threadStats3";
-      this.threadStats3.Queue = null;
-      this.threadStats3.Size = new System.Drawing.Size(571, 29);
-      this.threadStats3.TabIndex = 2;
-      this.threadStats3.ThreadsAssigned = 1;
-      this.threadStats3.ThreadsReadOnly = true;
-      // 
-      // threadStats2
-      // 
-      this.threadStats2.Caption = "To be processed";
-      this.threadStats2.Dock = System.Windows.Forms.DockStyle.Top;
-      this.threadStats2.Location = new System.Drawing.Point(0, 49);
-      this.threadStats2.MaxQueueLengthReadOnly = false;
-      this.threadStats2.Name = "threadStats2";
-      this.threadStats2.Queue = null;
-      this.threadStats2.Size = new System.Drawing.Size(571, 29);
-      this.threadStats2.TabIndex = 1;
-      this.threadStats2.ThreadsAssigned = 1;
-      this.threadStats2.ThreadsReadOnly = false;
-      // 
-      // threadStats1
-      // 
-      this.threadStats1.Caption = "Images to be loaded";
-      this.threadStats1.Dock = System.Windows.Forms.DockStyle.Top;
-      this.threadStats1.Location = new System.Drawing.Point(0, 20);
-      this.threadStats1.MaxQueueLengthReadOnly = true;
-      this.threadStats1.Name = "threadStats1";
-      this.threadStats1.Queue = null;
-      this.threadStats1.Size = new System.Drawing.Size(571, 29);
-      this.threadStats1.TabIndex = 0;
-      this.threadStats1.ThreadsAssigned = 1;
-      this.threadStats1.ThreadsReadOnly = true;
       // 
       // Dashboard
       // 
@@ -841,11 +844,11 @@
       this.toolStripContainer1.TopToolStripPanel.PerformLayout();
       this.toolStripContainer1.ResumeLayout(false);
       this.toolStripContainer1.PerformLayout();
-      this.panel1.ResumeLayout(false);
+      this.panelQueues.ResumeLayout(false);
       this.panel3.ResumeLayout(false);
       this.panel3.PerformLayout();
-      this.panel2.ResumeLayout(false);
-      this.panel2.PerformLayout();
+      this.panelResizeSettings.ResumeLayout(false);
+      this.panelResizeSettings.PerformLayout();
       this.panel5.ResumeLayout(false);
       this.panel5.PerformLayout();
       this.panel4.ResumeLayout(false);
@@ -862,12 +865,12 @@
       this.panel10.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.maxHeight)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.maxWidth)).EndInit();
+      this.toolStrip2.ResumeLayout(false);
+      this.toolStrip2.PerformLayout();
       this.toolStrip1.ResumeLayout(false);
       this.toolStrip1.PerformLayout();
       this.statusStrip1.ResumeLayout(false);
       this.statusStrip1.PerformLayout();
-      this.toolStrip2.ResumeLayout(false);
-      this.toolStrip2.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -878,7 +881,7 @@
     private System.Windows.Forms.ToolStripContainer toolStripContainer1;
     private System.Windows.Forms.ToolStrip toolStrip1;
     private System.Windows.Forms.ToolStripButton btnOpenFiles;
-    private System.Windows.Forms.Panel panel1;
+    private System.Windows.Forms.Panel panelQueues;
     private UI.ThreadStats threadStats3;
     private UI.ThreadStats threadStats2;
     private UI.ThreadStats threadStats1;
@@ -886,7 +889,7 @@
     private System.Windows.Forms.Label label3;
     private System.Windows.Forms.Label label2;
     private System.Windows.Forms.Splitter splitter1;
-    private System.Windows.Forms.Panel panel2;
+    private System.Windows.Forms.Panel panelResizeSettings;
     private System.Windows.Forms.Panel panel11;
     private System.Windows.Forms.ComboBox formatCombo;
     private System.Windows.Forms.Label label7;

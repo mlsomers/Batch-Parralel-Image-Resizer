@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
+using System.Globalization;
 using System.Windows.Forms;
 using QueueWorkers;
 
@@ -13,30 +9,27 @@ namespace BatchImageResampler.UI {
       InitializeComponent();
     }
 
-    private IWorkItemQueue queue;
+    private IWorkItemQueue _queue;
 
     public IWorkItemQueue Queue {
-      get { return queue; }
+      get { return _queue; }
       set {
-        queue = value;
-        if(!ReferenceEquals(value, null)) {
-          queueGauge1.WorkQueue = value;
-          if(!ReferenceEquals(value, null)) {
-            if(maxItemsInQueue.Maximum < value.MaxItems) maxItemsInQueue.Maximum = value.MaxItems;
-            maxItemsInQueue.Value = value.MaxItems;
-            UpdateStats();
-          }
-        }
+        _queue = value;
+        if (ReferenceEquals(value, null)) return;
+        queueGauge1.WorkQueue = value;
+        if(maxItemsInQueue.Maximum < value.MaxItems) maxItemsInQueue.Maximum = value.MaxItems;
+        maxItemsInQueue.Value = value.MaxItems;
+        UpdateStats();
       }
     }
 
     public void UpdateStats() {
       queueGauge1.PaintDiff();
       if(ReferenceEquals(queueGauge1.WorkQueue, null)) return;
-      labelCurrentQueueLength.Text = queueGauge1.WorkQueue.Count.ToString();
-      labelHighWaterMark.Text = queueGauge1.WorkQueue.PerfStatsMaxQueueLength.ToString();
-      if(ReferenceEquals(queue, null)) return;
-      btnPause.Enabled = queue.PauseQueue;
+      labelCurrentQueueLength.Text = queueGauge1.WorkQueue.Count.ToString(CultureInfo.InvariantCulture);
+      labelHighWaterMark.Text = queueGauge1.WorkQueue.PerfStatsMaxQueueLength.ToString(CultureInfo.InvariantCulture);
+      if(ReferenceEquals(_queue, null)) return;
+      btnPause.Enabled = _queue.PauseQueue;
     }
 
     private void maxItemsInQueue_ValueChanged(object sender, EventArgs e) {
@@ -75,8 +68,7 @@ namespace BatchImageResampler.UI {
     }
 
     public class ThreadsAssignedEventArgs : EventArgs {
-      public ThreadsAssignedEventArgs(int newValue)
-        : base() {
+      public ThreadsAssignedEventArgs(int newValue) : base() {
         NewValue = newValue;
       }
       public int NewValue { get; set; }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading;
 
 namespace QueueWorkers {
@@ -13,7 +11,7 @@ namespace QueueWorkers {
     /// <summary>
     /// Threads responsible for processing a certain job
     /// </summary>
-    protected readonly List<Thread> ProcessingThreads=new List<Thread>();
+    protected readonly List<Thread> ProcessingThreads = new List<Thread>();
     private readonly object ProcessingThreadsLock = new object();
     private readonly T stopObject = default(T);
     private readonly object ChangeThreadCountLock = new object();
@@ -25,6 +23,10 @@ namespace QueueWorkers {
     public bool Pause {
       get { return Queue.PauseQueue; }
       set { Queue.PauseQueue = value; }
+    }
+
+    public int ThreadCount {
+      get { return ProcessingThreads.Count; }
     }
 
     protected void WorkerLoop() {
@@ -55,19 +57,19 @@ namespace QueueWorkers {
       Start(0);
     }
 
-    public void Start(int threadCount) {
+    public void Start(int numberOfThreads) {
       lock(ChangeThreadCountLock) {
-        this.threadCount = threadCount;
+        threadCount = numberOfThreads;
         if(ProcessingThreads.Count == 0) { // First call
-          AddWorkers(threadCount);
-        } else if(ProcessingThreads.Count > threadCount) { // subsequent call to reduce threads
+          AddWorkers(numberOfThreads);
+        } else if(ProcessingThreads.Count > numberOfThreads) { // subsequent call to reduce threads
           Queue.Stop = true;
-          while(ProcessingThreads.Count > threadCount) Thread.Sleep(0);
+          while(ProcessingThreads.Count > numberOfThreads) Thread.Sleep(0);
           Queue.Stop = false;
           Thread.Sleep(0);// Note that too many threads might have exited at this point, sleep extra to get an up-to-date reading of count
         }
-        if(ProcessingThreads.Count < threadCount) { // subsequent call to increase threads (or when decreasing caused too many threads to exit)
-          AddWorkers(threadCount - ProcessingThreads.Count);
+        if(ProcessingThreads.Count < numberOfThreads) { // subsequent call to increase threads (or when decreasing caused too many threads to exit)
+          AddWorkers(numberOfThreads - ProcessingThreads.Count);
         }
       }
     }
